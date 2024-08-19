@@ -36,13 +36,17 @@ impl Timer {
 
     fn start_timer_msg(&self) {
         let timer_name = match &self.timer_type {
-            TimerType::Pomodoro => "[Pomodoro Time]",
-            TimerType::ShortBreak => "[Short Break]",
-            TimerType::LongBreak => "[Long Break]"
+            TimerType::Pomodoro => format!("[Pomodoro Time] {}", '\u{1F345}'),
+            TimerType::ShortBreak => format!("[Short Break] {}", '\u{1F369}'),
+            TimerType::LongBreak => format!("[Long Break] {}", '\u{1F389}')
         };
 
-        let logo_part = "=".repeat(timer_name.len() + 6);
+        let logo_part = "=".repeat(timer_name.chars().count() + 1 + 6);
+        //                                                            ^^^^^ - + 1 because emoji
+        // takes 2 characters to be displayed in terminal but counts as one char in rust, + 6 to
+        // align logo fancy
 
+        println!("{}", timer_name.chars().count());
         println!("{}", logo_part);
         println!(" | {timer_name} |");
         println!("{}", logo_part);
