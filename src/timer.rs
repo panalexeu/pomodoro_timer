@@ -46,10 +46,8 @@ impl Timer {
         // takes 2 characters to be displayed in terminal but counts as one char in rust, + 6 to
         // align logo fancy
 
-        println!("{}", timer_name.chars().count());
         println!("{}", logo_part);
         println!(" | {timer_name} |");
-        println!("{}", logo_part);
-        println!();
+        println!("{}\n", logo_part);
     }
 }
