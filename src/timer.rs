@@ -27,10 +27,11 @@ impl Timer {
     }
 
     pub fn start(&self) {
-        let period_in_sec = self.period as u64 * 60;
+        let period_in_sec = self.period as u64 * 1;
         let duration = Duration::from_secs(period_in_sec);
 
         self.start_timer_msg();
+        self.play_notification();
         let start_time = Local::now().format("%H:%M:%S");
         println!("Start time: {start_time}");
 
@@ -43,7 +44,7 @@ impl Timer {
     }
 
     fn start_timer_msg(&self) {
-        let timer_name = match &self.timer_type {
+        let timer_name = match self.timer_type {
             TimerType::Pomodoro => format!("[Pomodoro Time] {}", '\u{1F345}'),
             TimerType::ShortBreak => format!("[Short Break] {}", '\u{1F369}'),
             TimerType::LongBreak => format!("[Long Break] {}", '\u{1F389}')
