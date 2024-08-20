@@ -1,7 +1,10 @@
+use std::fs::File;
+use std::io::BufReader;
 use std::thread::sleep;
-use std::time::{Duration};
+use std::time::Duration;
 
 use chrono::Local;
+use rodio::{Decoder, OutputStream, Sink};
 
 use super::passed_args::TimerType;
 
@@ -21,7 +24,7 @@ impl Timer {
     }
 
     pub fn start(&self) {
-        let period_in_sec = self.period as u64 * 60;
+        let period_in_sec = self.period as u64 * 1;
         let duration = Duration::from_secs(period_in_sec);
 
         self.start_timer_msg();
@@ -32,6 +35,8 @@ impl Timer {
 
         let end_time = Local::now().format("%H:%M:%S");
         println!("End time: {end_time}");
+
+        self.play_notification();
     }
 
     fn start_timer_msg(&self) {
@@ -49,5 +54,14 @@ impl Timer {
         println!("{}", logo_part);
         println!(" | {timer_name} |");
         println!("{}\n", logo_part);
+    }
+
+    fn play_notification(&self) {
+        let (_stream, stream_handle) = OutputStream::try_default().unwrap();
+        let sink = Sink::try_new(&stream_handle).unwrap();
+        let file = BufReader::new(File::open("sounds/beach_notification.wav").unwrap());
+        let source = Decoder::new(file).unwrap();
+        sink.append(source);
+        sink.sleep_until_end();
     }
 }
