@@ -59,8 +59,11 @@ impl Timer {
     fn play_notification(&self) {
         let (_stream, stream_handle) = OutputStream::try_default().unwrap();
         let sink = Sink::try_new(&stream_handle).unwrap();
+
         let file = BufReader::new(File::open("sounds/beach_notification.wav").unwrap());
         let source = Decoder::new(file).unwrap();
+
+        sink.set_volume(2.0);
         sink.append(source);
         sink.sleep_until_end();
     }
