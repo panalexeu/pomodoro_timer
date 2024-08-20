@@ -15,16 +15,19 @@ pub struct Timer {
 }
 
 impl Timer {
-    pub fn new(timer_type: TimerType) -> Self {
-        match timer_type {
-            TimerType::Pomodoro => Timer { timer_type, period: 25 },
-            TimerType::ShortBreak => Timer { timer_type, period: 5 },
-            TimerType::LongBreak => Timer { timer_type, period: 10 },
+    pub fn new(timer_type: TimerType, period: u8) -> Self {
+        Timer {
+            period: match timer_type {
+                TimerType::Pomodoro =>  if period != 0 { period } else { 25 },
+                TimerType::ShortBreak => if period != 0 { period } else { 5 },
+                TimerType::LongBreak => if period != 0 { period } else { 10 },
+            },
+            timer_type
         }
     }
 
     pub fn start(&self) {
-        let period_in_sec = self.period as u64 * 1;
+        let period_in_sec = self.period as u64 * 60;
         let duration = Duration::from_secs(period_in_sec);
 
         self.start_timer_msg();

@@ -11,6 +11,9 @@ fn main() {
         exit(-1);
     });
 
-    let timer = Timer::new(passed_args.timer_type);
+    let timer = Timer::new(
+        passed_args.timer_type,
+        passed_args.period
+    );
     timer.start();
 }

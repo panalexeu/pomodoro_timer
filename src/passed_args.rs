@@ -10,7 +10,7 @@ pub enum TimerType {
 
 pub struct PassedArgs {
     pub timer_type: TimerType,
-    period: u8,
+    pub period: u8,
 }
 
 impl PassedArgs {
@@ -29,10 +29,18 @@ impl PassedArgs {
             None => return Err("Timer type is not passed")
         };
 
+        let period: u8 = match args.next() {
+            Some(time) => match time.parse::<u8>() {
+                Ok(res) => res,
+                Err(_) => return Err("Timer allowed time is u8 values only")
+            },
+            None => 0
+        };
+
         Ok(
             PassedArgs {
                 timer_type,
-                period: 255,
+                period,
             }
         )
     }
