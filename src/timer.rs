@@ -47,7 +47,7 @@ impl Timer {
         };
 
         let logo_part = "=".repeat(timer_name.chars().count() + 1 + 6);
-        //                                                            ^^^^^ - + 1 because emoji
+        //                                                               ^^^^^ - + 1 because emoji
         // takes 2 characters to be displayed in terminal but counts as one char in rust, + 6 to
         // align logo fancy
 
